@@ -2,6 +2,7 @@ package com.mycompany.scanout;
 
 import android.content.ContentValues;
 import android.content.Intent;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
@@ -81,13 +82,13 @@ public class MainActivity extends ActionBarActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 0 || requestCode == 1) {
+        if (requestCode == 1) {
             SQLiteDatabase db = mDbHelper.getWritableDatabase();
 
             if (resultCode == RESULT_OK) {
                 String contents = data.getStringExtra("SCAN_RESULT"); //this is the result
                 System.out.println(contents + DateFormat.getDateTimeInstance().format(new Date()));
-                t.setText(contents);
+                t.setText(contents + DateFormat.getDateTimeInstance().format(new Date()));
                 //adapter.notifyDataSetChanged();
                 ContentValues bc = new ContentValues();
                 bc.put(MySQLiteHelper.COLUMN_BARCODE, contents);
@@ -96,8 +97,24 @@ public class MainActivity extends ActionBarActivity {
                         MySQLiteHelper.TABLE_TITLE,
                         null,
                         bc);
-            } else
-            if (resultCode == RESULT_CANCELED) {
+            } else if (resultCode == RESULT_CANCELED) {
+                // Handle cancel
+            }
+        }
+
+        if (requestCode == 0) {
+            SQLiteDatabase db = mDbHelper.getReadableDatabase();
+
+            if (resultCode == RESULT_OK) {
+                String contents = data.getStringExtra("SCAN_RESULT"); //this is the result
+                System.out.println(contents + DateFormat.getDateTimeInstance().format(new Date()));
+                String q = "SELECT * FROM " + MySQLiteHelper.TABLE_TITLE + " WHERE " + MySQLiteHelper.COLUMN_BARCODE + " = '" + contents + "'";
+                Cursor c = db.rawQuery(q, null);
+                boolean isEmpty = c.getCount() < 1;
+                if(isEmpty) { t.setText("Barcode not found!!!"); }
+                else { t.setText("Barcode found!"); }
+                c.close();
+            } else if (resultCode == RESULT_CANCELED) {
                 // Handle cancel
             }
         }
