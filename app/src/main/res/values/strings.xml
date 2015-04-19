@@ -1,8 +1,9 @@
 <resources>
     <string name="app_name">Scan Out</string>
 
-    <string name="hello_world">Hello world!</string>
+    <string name="hello_world">Hello World!</string>
     <string name="action_settings">Settings</string>
     <string name="scan_out">Scan Out</string>
     <string name="scan_in">Scan In</string>
+    <string name="clear_db">Clear Database</string>
 </resources>

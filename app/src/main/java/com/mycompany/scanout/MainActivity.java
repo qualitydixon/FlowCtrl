@@ -22,6 +22,7 @@ import java.util.Date;
 public class MainActivity extends ActionBarActivity {
 
     private MySQLiteHelper mDbHelper;
+    private SQLiteDatabase db;
     public static ArrayList<String> values;
     public static ArrayAdapter<String> adapter;
     public TextView t;
@@ -54,6 +55,8 @@ public class MainActivity extends ActionBarActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
+        } else if(id == R.id.action_cleardb) {
+            mDbHelper.onUpgrade(db, MySQLiteHelper.DATABASE_VERSION, MySQLiteHelper.DATABASE_VERSION + 1);
         }
 
         return super.onOptionsItemSelected(item);
@@ -83,12 +86,13 @@ public class MainActivity extends ActionBarActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1) {
-            SQLiteDatabase db = mDbHelper.getWritableDatabase();
+            db = mDbHelper.getWritableDatabase();
 
             if (resultCode == RESULT_OK) {
                 String contents = data.getStringExtra("SCAN_RESULT"); //this is the result
-                System.out.println(contents + DateFormat.getDateTimeInstance().format(new Date()));
-                t.setText(contents + DateFormat.getDateTimeInstance().format(new Date()));
+                System.out.println(contents + " " + DateFormat.getDateTimeInstance().format(new Date()));
+                t.setTextColor(getResources().getColor(R.color.green));
+                t.setText(contents + "\n" + DateFormat.getDateTimeInstance().format(new Date()));
                 //adapter.notifyDataSetChanged();
                 ContentValues bc = new ContentValues();
                 bc.put(MySQLiteHelper.COLUMN_BARCODE, contents);
@@ -103,7 +107,7 @@ public class MainActivity extends ActionBarActivity {
         }
 
         if (requestCode == 0) {
-            SQLiteDatabase db = mDbHelper.getReadableDatabase();
+            db = mDbHelper.getReadableDatabase();
 
             if (resultCode == RESULT_OK) {
                 String contents = data.getStringExtra("SCAN_RESULT"); //this is the result
@@ -111,8 +115,14 @@ public class MainActivity extends ActionBarActivity {
                 String q = "SELECT * FROM " + MySQLiteHelper.TABLE_TITLE + " WHERE " + MySQLiteHelper.COLUMN_BARCODE + " = '" + contents + "'";
                 Cursor c = db.rawQuery(q, null);
                 boolean isEmpty = c.getCount() < 1;
-                if(isEmpty) { t.setText("Barcode not found!!!"); }
-                else { t.setText("Barcode found!"); }
+                if(isEmpty) {
+                    t.setTextColor(getResources().getColor(R.color.darkred));
+                    t.setText("Barcode not found!!!");
+                }
+                else {
+                    t.setTextColor(getResources().getColor(R.color.darkgreen));
+                    t.setText("Barcode found!");
+                }
                 c.close();
             } else if (resultCode == RESULT_CANCELED) {
                 // Handle cancel
