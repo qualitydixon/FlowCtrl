@@ -9,4 +9,5 @@
     <string name="success">Scan Successful</string>
     <string name="found">Barcode Found</string>
     <string name="not_found">Barcode Not Found</string>
+    <string name="c_out">Current Out: </string>
 </resources>
