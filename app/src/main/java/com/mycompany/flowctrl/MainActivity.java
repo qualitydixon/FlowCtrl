@@ -86,7 +86,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onPause() {
         super.onPause();
-        if (VERBOSE) Log.v(TAG, "- ON PAUSE -");
     }
 
     public void scanIn(View view){
@@ -106,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
 
             if (resultCode == RESULT_OK) {
                 String contents = data.getStringExtra("SCAN_RESULT"); //this is the result
-                System.out.println(requestCode + "   " + resultCode + "   " + DateFormat.getDateTimeInstance().format(new Date()));
+                //System.out.println(requestCode + "   " + resultCode + "   " + DateFormat.getDateTimeInstance().format(new Date()));
 
                 // Display success message
                 status.setTextColor(getResources().getColor(R.color.holo_green));
@@ -133,7 +132,7 @@ public class MainActivity extends AppCompatActivity {
 
             if (resultCode == RESULT_OK) {
                 String contents = data.getStringExtra("SCAN_RESULT"); //this is the result
-                System.out.println(contents + DateFormat.getDateTimeInstance().format(new Date()));
+                //System.out.println(contents + DateFormat.getDateTimeInstance().format(new Date()));
 
                 // Make query
                 String q = "SELECT * FROM " + MySQLiteHelper.TABLE_TITLE + " WHERE " + MySQLiteHelper.COLUMN_BARCODE + " = '" + contents + "'";
@@ -167,68 +166,4 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
-    /*@Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 1) {
-            db = mDbHelper.getWritableDatabase();
-
-            if (resultCode == RESULT_OK) {
-                String contents = data.getStringExtra("SCAN_RESULT"); //this is the result
-                System.out.println(contents + " " + DateFormat.getDateTimeInstance().format(new Date()));
-
-                // Display success message
-                status.setTextColor(getResources().getColor(R.color.holo_green));
-                status.setText(R.string.success);
-
-                // Add contents to database
-                ContentValues bc = new ContentValues();
-                bc.put(MySQLiteHelper.COLUMN_BARCODE, contents);
-                long newRowId;
-                newRowId = db.insert(
-                        MySQLiteHelper.TABLE_TITLE,
-                        null,
-                        bc);
-            } else if (resultCode == RESULT_CANCELED) {
-                // Handle cancel
-            }
-        }
-
-        if (requestCode == 0) {
-            db = mDbHelper.getReadableDatabase();
-
-            if (resultCode == RESULT_OK) {
-                String contents = data.getStringExtra("SCAN_RESULT"); //this is the result
-                System.out.println(contents + DateFormat.getDateTimeInstance().format(new Date()));
-
-                // Make query
-                String q = "SELECT * FROM " + MySQLiteHelper.TABLE_TITLE + " WHERE " + MySQLiteHelper.COLUMN_BARCODE + " = '" + contents + "'";
-                Cursor c = db.rawQuery(q, null);
-                boolean isEmpty = c.getCount() < 1;
-                if(isEmpty) {
-
-                    // Display not found message
-                    status.setTextColor(getResources().getColor(R.color.darkred));
-                    status.setText(R.string.not_found);
-                }
-                else {
-
-                    // Display found message
-                    status.setTextColor(getResources().getColor(R.color.holo_green));
-                    status.setText(R.string.found);
-
-                    // Delete entry from database
-                    String table = "beaconTable";
-                    String whereClause =MySQLiteHelper.COLUMN_BARCODE + " = ? ";
-                    String[] whereArgs = new String[] { contents };
-                    db.delete(MySQLiteHelper.TABLE_TITLE, whereClause, whereArgs);
-                }
-
-                // Close cursor
-                c.close();
-            } else if (resultCode == RESULT_CANCELED) {
-                // Handle cancel
-            }
-        }
-    }*/
 }

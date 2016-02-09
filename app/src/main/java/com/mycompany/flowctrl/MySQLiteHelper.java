@@ -10,8 +10,8 @@ import java.util.ArrayList;
 
 /**
  * Created by Mike on 4/13/2015 at 12:36 AM.
- * Package: com.mycompany.scanout
- * Project: Scan Out
+ * Package: com.mycompany.flowctrl
+ * Project: Flow Ctrl
  */
 public class MySQLiteHelper extends SQLiteOpenHelper {
 
@@ -39,9 +39,9 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        Log.w(MySQLiteHelper.class.getName(),
+        /*Log.w(MySQLiteHelper.class.getName(),
                 "Upgrading database from version " + oldVersion + " to "
-                        + newVersion + ", which will destroy all old data");
+                        + newVersion + ", which will destroy all old data");*/
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_TITLE);
         onCreate(db);
     }
