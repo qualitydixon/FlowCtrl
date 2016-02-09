@@ -1,3 +1,3 @@
 # FlowCtrl
 
-Flow Ctrl provides a fast, efficient system for managing re-entry at any type of event. The functionality is simple. When someone leaves an event, the user can scan their ticket, id, or any other offical document with a barcode, and record their exit. When that person returns, the user scans the document again to verify.
+Flow Ctrl is a simple utility app to assist with re-entry for events. It uses the popular <a href="https://play.google.com/store/apps/details?id=com.google.zxing.client.android&hl=en">Barcode Scanner</a> app to store a unique value (from a ticket or ID).
