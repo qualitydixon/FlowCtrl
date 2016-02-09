@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -106,8 +107,8 @@ public class MainActivity extends AppCompatActivity {
             if (resultCode == RESULT_OK) {
                 String contents = data.getStringExtra("SCAN_RESULT"); //this is the result
                 System.out.println(contents + " " + DateFormat.getDateTimeInstance().format(new Date()));
-                t.setTextColor(getResources().getColor(R.color.material_blue_grey_950));
-                t.setText(R.string.success + "\n" + DateFormat.getDateTimeInstance().format(new Date()));
+                t.setTextColor(getResources().getColor(R.color.holo_green));
+                t.setText(R.string.success);
                 //adapter.notifyDataSetChanged();
                 ContentValues bc = new ContentValues();
                 bc.put(MySQLiteHelper.COLUMN_BARCODE, contents);
@@ -135,7 +136,7 @@ public class MainActivity extends AppCompatActivity {
                     t.setText(R.string.not_found);
                 }
                 else {
-                    t.setTextColor(getResources().getColor(R.color.material_blue_grey_950));
+                    t.setTextColor(getResources().getColor(R.color.holo_green));
                     t.setText(R.string.found);
 
                     // Delete entry

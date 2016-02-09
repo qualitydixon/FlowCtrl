@@ -14,6 +14,8 @@
     <item name="my_green" type="color">#66BB6A</item>
     <item name="my_red" type="color">#EF5350</item>
     <item name="my_orange" type="color">#FF7043</item>
+    <item name="dark_grey" type="color">#424242</item>
+    <item name="holo_green" type="color">#99cc00</item>
 
     <integer-array name="androidcolors">
         <item>@color/blue</item>
@@ -27,5 +29,4 @@
         <item>@color/darkorange</item>
         <item>@color/darkred</item>
     </integer-array>
-
 </resources>
