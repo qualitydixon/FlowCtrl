@@ -1,9 +1,12 @@
 <resources>
-    <string name="app_name">Scan Out</string>
+    <string name="app_name">Flow Ctrl</string>
 
-    <string name="hello_world">Hello World!</string>
+    <string name="welcome">Welcome to Flow ctrl</string>
     <string name="action_settings">Settings</string>
-    <string name="scan_out">Scan Out</string>
-    <string name="scan_in">Scan In</string>
+    <string name="scan_out">Leaving</string>
+    <string name="scan_in">Returning</string>
     <string name="clear_db">Clear Database</string>
+    <string name="success">Scan Successful</string>
+    <string name="found">Barcode Found</string>
+    <string name="not_found">Barcode Not Found</string>
 </resources>

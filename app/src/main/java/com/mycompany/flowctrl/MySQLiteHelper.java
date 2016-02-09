@@ -1,4 +1,4 @@
-package com.mycompany.scanout;
+package com.mycompany.flowctrl;
 
 import android.content.Context;
 import android.database.Cursor;

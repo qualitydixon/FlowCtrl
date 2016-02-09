@@ -1,17 +1,18 @@
-package com.mycompany.scanout;
+package com.mycompany.flowctrl;
 
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
+import android.graphics.Typeface;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.TextView;
 
 import java.text.DateFormat;
@@ -19,13 +20,15 @@ import java.util.ArrayList;
 import java.util.Date;
 
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends AppCompatActivity {
 
     private MySQLiteHelper mDbHelper;
     private SQLiteDatabase db;
     public static ArrayList<String> values;
     public static ArrayAdapter<String> adapter;
     public TextView t;
+    public Button sO;
+    public Button sI;
     private static final boolean VERBOSE = true;
     private static final String TAG = "SampleActivity";
 
@@ -35,7 +38,19 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         mDbHelper = new MySQLiteHelper(this);
         setContentView(R.layout.activity_main);
+
+        setTitle("Flow Ctrl");
+
+        // Inject view elements
         t = (TextView)this.findViewById(R.id.textView);
+        sO = (Button)this.findViewById(R.id.scanOut);
+        sI = (Button)this.findViewById(R.id.scanIn);
+
+        // Set font
+        Typeface main_font = Typeface.createFromAsset(getAssets(),  "fonts/Montserrat-Regular.ttf");
+        t.setTypeface(main_font);
+        sO.setTypeface(main_font);
+        sI.setTypeface(main_font);
     }
 
     @Override
@@ -91,8 +106,8 @@ public class MainActivity extends ActionBarActivity {
             if (resultCode == RESULT_OK) {
                 String contents = data.getStringExtra("SCAN_RESULT"); //this is the result
                 System.out.println(contents + " " + DateFormat.getDateTimeInstance().format(new Date()));
-                t.setTextColor(getResources().getColor(R.color.green));
-                t.setText(contents + "\n" + DateFormat.getDateTimeInstance().format(new Date()));
+                t.setTextColor(getResources().getColor(R.color.material_blue_grey_950));
+                t.setText(R.string.success + "\n" + DateFormat.getDateTimeInstance().format(new Date()));
                 //adapter.notifyDataSetChanged();
                 ContentValues bc = new ContentValues();
                 bc.put(MySQLiteHelper.COLUMN_BARCODE, contents);
@@ -117,11 +132,17 @@ public class MainActivity extends ActionBarActivity {
                 boolean isEmpty = c.getCount() < 1;
                 if(isEmpty) {
                     t.setTextColor(getResources().getColor(R.color.darkred));
-                    t.setText("Barcode not found!!!");
+                    t.setText(R.string.not_found);
                 }
                 else {
-                    t.setTextColor(getResources().getColor(R.color.darkgreen));
-                    t.setText("Barcode found!");
+                    t.setTextColor(getResources().getColor(R.color.material_blue_grey_950));
+                    t.setText(R.string.found);
+
+                    // Delete entry
+                    String table = "beaconTable";
+                    String whereClause =MySQLiteHelper.COLUMN_BARCODE + " = ? ";
+                    String[] whereArgs = new String[] { contents };
+                    db.delete(MySQLiteHelper.TABLE_TITLE, whereClause, whereArgs);
                 }
                 c.close();
             } else if (resultCode == RESULT_CANCELED) {

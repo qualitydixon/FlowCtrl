@@ -1,4 +1,4 @@
-package com.mycompany.scanout;
+package com.mycompany.flowctrl;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;
